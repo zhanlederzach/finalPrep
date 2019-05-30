@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ProviderService} from "../shared/services/provider.service";
-import {IContact, ITaskList} from "../shared/models/models";
+import {IContact, IQuery, ITaskList} from "../shared/models/models";
 
 @Component({
   selector: 'app-contact',
@@ -19,7 +19,7 @@ export class ContactComponent implements OnInit {
   public phone: any = '';
   public allowed: false;
   public editable: number;
-  query: string;
+  query: string = '';
 
   constructor(private provider: ProviderService) {
   }
@@ -37,18 +37,9 @@ export class ContactComponent implements OnInit {
     }
   }
 
-  getContacts(query?: string, sort_by_name?: boolean) {
+  getContacts(query?: IQuery) {
     this.contacts = null;
-    if (query == null) {
-      query = '';
-    }
-    if (sort_by_name == null) {
-      sort_by_name = false;
-    }
-    this.provider.getContacts({
-      query: query,
-      sort_by_name: sort_by_name
-    }).then(res => {
+    this.provider.getContacts(query).then(res => {
       this.contacts = res;
       console.log(res);
       this.loading = false;
@@ -118,10 +109,19 @@ export class ContactComponent implements OnInit {
   }
 
   search(query: string) {
-    this.getContacts(query);
+    this.getContacts({
+      query: this.query});
   }
 
   sortByName() {
-    this.getContacts(this.query, true);
+    this.getContacts({
+      query: this.query,
+      sort_by_name: true});
+  }
+
+  onlyMineFilter() {
+    this.getContacts({
+      query: this.query,
+      only_mine: true});
   }
 }

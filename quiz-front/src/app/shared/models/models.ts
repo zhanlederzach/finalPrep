@@ -44,4 +44,5 @@ export interface IContact {
 export interface IQuery {
   query?: string;
   sort_by_name?: boolean;
+  only_mine?: boolean;
 }

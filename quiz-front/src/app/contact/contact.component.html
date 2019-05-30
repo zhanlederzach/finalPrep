@@ -44,6 +44,7 @@
       <button (click)="search(query)">Найти</button>
     </div>
     <button (click)="sortByName()">Sort by name</button>
+    <button (click)="onlyMineFilter()">Only my</button>
     <div class="contacts">
       <div *ngFor="let c of contacts">
         <div *ngIf="c.id===editable">

@@ -28,15 +28,18 @@ class ContactsApi(APIView):
     #     return Response(serializer.data)
 
     def get(self, request):
-
+        owner = getOwner(request)
         print(request.query_params)
-        query = request.query_params.get('query', [''])
+        query = request.query_params.get('query', '')
         sort_by_name = request.query_params.get('sort_by_name', False)
-        print(query)
+        only_mine = request.query_params.get('only_mine', False)
+        print(only_mine)
         contacts = Contact.objects.filter(name__contains=query)
+
         if sort_by_name:
             contacts = contacts.order_by('name')
-
+        if only_mine:
+            contacts = contacts.filter(owner=owner)
         print(contacts)
         response_data = []
         for c in contacts:
