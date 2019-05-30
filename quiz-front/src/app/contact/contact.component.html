@@ -1,0 +1,72 @@
+<ng-container *ngIf="!isLogged">
+  <div>
+    <div>
+      <input type="text" placeholder="Login" [(ngModel)]="login"/>
+    </div>
+    <div>
+      <input type="password" placeholder="Password" [(ngModel)]="password"/>
+    </div>
+    <div>
+      <button (click)="auth()">Log in</button>
+    </div>
+  </div>
+</ng-container>
+
+
+<div *ngIf="isLogged">
+  CREATE CONTACT:
+
+  <div class="contacts" *ngIf="contact">
+    <input type="text" placeholder="name" [(ngModel)]="name"/>
+    <input type="number" placeholder="phone" [(ngModel)]="phone"/>
+    <button (click)="createContact()">Create</button>
+  </div>
+  <ng-container *ngIf="!loading">
+    Loading...
+  </ng-container>
+
+  <!--  <ng-container *ngIf="loading">-->
+  <!--    <div class="contacts">-->
+  <!--      <div *ngFor="let c of contacts" >-->
+  <!--      <span (click)="onContactClick(c)">-->
+<!--          <input type="text" [(ngModel)]="c.name">-->
+<!--          <input type="text" [(ngModel)]="c.phone">-->
+  <!--      </span>-->
+  <!--      <button style="color: red" (click)="deleteContact(c)"> Удалить</button>-->
+  <!--      <button style="color: green" (click)="updateContact(c)"> Изменить</button>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </ng-container>-->
+
+  <ng-container *ngIf="loading">
+    <div>
+      <input type="text" [(ngModel)]="query">
+      <button (click)="search(query)">Найти</button>
+    </div>
+    <button (click)="sortByName()">Sort by name</button>
+    <div class="contacts">
+      <div *ngFor="let c of contacts">
+        <div *ngIf="c.id===editable">
+          <input type="text" [(ngModel)]="c.name">
+          <input type="text" [(ngModel)]="c.phone">
+          <button (click)="onSaveClick(c)">
+            save
+          </button>
+
+        </div>
+        <span (click)="onContactClick(c)">
+            <p> {{c.name}}</p>
+            <p> {{c.phone}}</p>
+        </span>
+        <div *ngIf="c.my_or_not">
+          <button style="color: red" (click)="deleteContact(c)"> Удалить</button>
+          <button style="color: green" (click)="updateContact(c)"> Изменить</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <button (click)="logout()">Log out</button>
+</div>
+
+

@@ -1,0 +1,6 @@
+.taskDetails{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  width: 200px;
+}

@@ -1,0 +1,27 @@
+CREATE TASK:
+<div class="taskDetails">
+  <input type="text" placeholder='name' [(ngModel)]="task.name"/>
+  <input type="date" placeholder='create at' [(ngModel)]="task.created_at"/>
+  <input type="date" placeholder='due on' [(ngModel)]="task.due_on"/>
+  <input type="text" placeholder='status' [(ngModel)]="task.status"/>
+  <button (click)="createTask()">Create</button>
+</div>
+
+<div>
+  TASKS:
+  <div class="taskDetails" *ngFor="let p of tasks">
+    <input type="text" [(ngModel)]="p.name">
+    <input type="date" [ngModel]="p.created_at | date:'yyyy-MM-dd'"
+           (ngModelChange)="p.created_at=toDate($event)">
+    <input type="date" [ngModel]="p.due_on | date:'yyyy-MM-dd'"
+           (ngModelChange)="p.due_on=toDate($event)">
+
+    {{ getType(p.created_at) }}
+    {{ getType(p.due_on) }}
+
+    <input type="text" [(ngModel)]="p.status">
+
+    <button style="color: red" (click)="deleteTask(p)"> Удалить</button>
+    <button style="color: green" (click)="updateTask(p)"> Изменить</button>
+  </div>
+</div>
