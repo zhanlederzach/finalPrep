@@ -33,6 +33,9 @@ class ContactsApi(APIView):
         query = request.query_params.get('query', '')
         sort_by_name = request.query_params.get('sort_by_name', False)
         only_mine = request.query_params.get('only_mine', False)
+        offset = int(request.query_params.get('offset', 0))
+        page_size = int(request.query_params.get('page_size', 3))
+
         print(only_mine)
         contacts = Contact.objects.filter(name__contains=query)
 
@@ -42,6 +45,8 @@ class ContactsApi(APIView):
             contacts = contacts.filter(owner=owner)
         print(contacts)
         response_data = []
+        if offset<=page_size and offset>=0:
+            contacts = contacts.all()[offset:offset + page_size]
         for c in contacts:
             serializer = ContactSerializer(c)
             my_or_not = False
